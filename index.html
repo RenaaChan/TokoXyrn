@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TokoXyrn</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:linear-gradient(180deg,#0b0014,#1a002b);
+  color:#fff;
+}
+
+/* ===== HEADER ===== */
+header{
+  padding:12px;
+  text-align:center;
+}
+header img{
+  height:45px;
+  cursor:pointer;
+}
+
+/* ===== HOME ===== */
+.slider{
+  width:100%;
+  overflow:hidden;
+  display:flex;
+  pointer-events:none;
+}
+.slide{min-width:100%;}
+.slide img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.game-title{
+  margin:18px 12px 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.game-title span{
+  font-size:16px;
+  font-weight:bold;
+  color:#ff4d6d;
+  letter-spacing:1px;
+}
+.game-title::before{
+  content:"🎮";
+}
+.game-line{
+  flex:1;
+  height:2px;
+  background:linear-gradient(90deg,#ff4d6d,transparent);
+}
+
+.game-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  padding:12px;
+}
+
+.game-card{
+  background:#1f0033;
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.game-card:active{
+  transform:scale(0.96);
+}
+.game-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;   /* membuat gambar jadi persegi */
+  object-fit: cover;
+}
+
+/* Nama game di bawah gambar */
+.game-card p {
+  text-align: center;
+  padding: 8px 6px 10px;
+  font-size: 14px;
+  background: #1f0033;
+}
+
+/* ===== ML PAGE ===== */
+.container{
+  padding:10px 14px 90px;
+}
+
+.card{
+  background:#1a002b;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.title{
+  font-size:15px;
+  margin-bottom:10px;
+  color:#ff4d6d;
+}
+
+.input-group{
+  display:flex;
+  gap:10px;
+}
+.input-group input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  background:#0e001a;
+  color:#fff;
+}
+
+.dm-grid,.pay-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.dm,.pay{
+  background:#0e001a;
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  border:2px solid transparent;
+  font-size:14px;
+}
+.dm span{
+  display:block;
+  font-size:12px;
+  margin-top:4px;
+  opacity:.8;
+}
+.dm.active,.pay.active{
+  border-color:#ff4d6d;
+}
+
+/* CENTER ITEM JIKA SENDIRIAN */
+.dm-grid > .dm:only-child,
+.pay-grid > .pay:only-child,
+.dm-grid > .dm:last-child:nth-child(odd),
+.pay-grid > .pay:last-child:nth-child(odd){
+  grid-column:1 / -1;
+  justify-self:center;
+  width:60%;
+}
+
+/* BUTTON */
+.bottom-bar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#0b0014;
+  padding:12px;
+  box-shadow:0 -4px 10px rgba(0,0,0,.4);
+}
+.bottom-inner{
+  max-width:420px;
+  margin:auto;
+}
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  background:#ff4d6d;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+.popup.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.popup-box{
+  background:#1a002b;
+  padding:18px;
+  border-radius:16px;
+  width:85%;
+  max-width:300px;
+  text-align:center;
+}
+.popup-box h3{color:#ff4d6d;margin-bottom:8px;}
+.popup-box button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#ff4d6d;
+  color:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <img src="https://i.postimg.cc/sgbTVtqM/20260202-163355.png" onclick="headerAction()">
+</header>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="homePage">
+
+<div class="slider" id="slider">
+  <div class="slide"><img src="https://i.postimg.cc/50XL86mH/MLBB-large.webp"></div>
+</div>
+
+<div class="game-title">
+  <span>GAME</span>
+  <div class="game-line"></div>
+</div>
+
+<div class="game-grid">
+  <div class="game-card" onclick="openML()">
+    <img src="https://i.postimg.cc/QCT67kks/images-(6).jpg">
+    <p>Mobile Legends</p>
+  </div>
+</div>
+</div>
+
+<!-- ===== MOBILE LEGENDS PAGE ===== -->
+<div id="mlPage" style="display:none">
+
+<div class="container">
+
+<div class="card">
+  <div class="title">User ID</div>
+  <div class="input-group">
+    <input type="number" id="userid" placeholder="ID">
+    <input type="number" id="server" placeholder="Server">
+  </div>
+</div>
+<!-- DIAMOND -->
+<div class="card">
+  <div class="title">Pilih Diamond</div>
+  <div class="dm-grid">
+    <div class="dm" onclick="selectDM(this,'5 DM','Rp 1.500')">5 DM<span>Rp 1.500</span></div>
+    <div class="dm" onclick="selectDM(this,'11+1 DM','Rp 3.500')">11+1 DM<span>Rp 3.500</span></div>
+    <div class="dm" onclick="selectDM(this,'17+2 DM','Rp 5.500')">17+2 DM<span>Rp 5.500</span></div>
+    <div class="dm" onclick="selectDM(this,'25+3 DM','Rp 8.000')">25+3 DM<span>Rp 8.000</span></div>
+    <div class="dm" onclick="selectDM(this,'40+3 DM','Rp 12.000')">40+3 DM<span>Rp 12.000</span></div>
+    <div class="dm" onclick="selectDM(this,'53+6 DM','Rp 16.000')">53+6 DM<span>Rp 16.000</span></div>
+    <div class="dm" onclick="selectDM(this,'77+8 DM','Rp 1.500')">77+8 DM<span>Rp 22.500</span></div>
+    <div class="dm" onclick="selectDM(this,'154+16 DM','Rp 44.500')">154+16 DM<span>Rp 44.500</span></div>
+    <div class="dm" onclick="selectDM(this,'217+23 DM','Rp 63.000')">217+23 DM<span>Rp 63.000</span></div>
+    <div class="dm" onclick="selectDM(this,'256+40 DM','Rp 77.500')">256+40 DM<span>Rp 77.500</span></div>
+  <div class="dm" onclick="selectDM(this,'367+41 DM','Rp 106.500')">367+41 DM<span>Rp 106.500</span></div>
+  <div class="dm" onclick="selectDM(this,'503+65 DM','Rp 145.500')">503+65 DM<span>Rp 145.500</span></div>
+  <div class="dm" onclick="selectDM(this,'774+101 DM','Rp 223.000')">774+101 DM<span>Rp 223.000</span></div>
+  <div class="dm" onclick="selectDM(this,'1708+302 DM','Rp 485.000')">1708+302 DM<span>Rp 485.000</span></div>
+  <div class="dm" onclick="selectDM(this,'4003+827 DM','Rp 1.164.000')">4003+827 DM<span>Rp 1.164.000</span></div>
+  <div class="dm" onclick="selectDM(this,'Starlight Card','Rp 30.000')">Starlight Card<span>Rp 30.000</span></div>
+  <div class="dm" onclick="selectDM(this,'Weekly Elite Bundle','Rp 15.000')">Weekly Elite<br>Bundle<span>Rp 15.000</span></div>
+  <div class="dm" onclick="selectDM(this,'Monthly Epic Bundle','Rp 75.000')">Monthly Epic<br>Bundle<span>Rp 75.000</span></div>
+    <div class="dm" onclick="selectDM(this,'Weekly Diamond Pass','Rp 27.500')">Weekly<br>Diamond Pass<span>Rp 27.500</span></div>
+  </div>
+</div>
+
+<!-- PAYMENT -->
+<div class="card">
+  <div class="title">Metode Pembayaran</div>
+  <div class="pay-grid">
+    <div class="pay" onclick="selectPay(this,'Dana')">Dana</div>
+    <div class="pay" onclick="selectPay(this,'Gopay')">Gopay</div>
+    <div class="pay" onclick="selectPay(this,'Ovo')">OVO</div>
+    <div class="pay" onclick="selectPay(this,'ShopeePay')">ShopeePay</div>
+    <div class="pay" onclick="selectPay(this,'QRIS')">QRIS</div>
+  </div>
+</div>
+
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-inner">
+    <button class="btn" onclick="bayar()">Bayar Sekarang</button>
+  </div>
+</div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h3>Data Belum Lengkap</h3>
+    <p>Lengkapi semua data terlebih dahulu.</p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<script>
+let currentPage="home";
+let selectedDM="",selectedPrice="",selectedPay="";
+
+/* HEADER */
+function headerAction(){
+  if(currentPage==="home"){
+    location.reload();
+  }else{
+    document.getElementById("mlPage").style.display="none";
+    document.getElementById("homePage").style.display="block";
+    currentPage="home";
+  }
+}
+
+/* NAVIGATION */
+function openML(){
+  document.getElementById("homePage").style.display="none";
+  document.getElementById("mlPage").style.display="block";
+  currentPage="ml";
+}
+
+function openEmpty(){
+  alert("Halaman belum tersedia");
+}
+
+/* SLIDER */
+const slider=document.getElementById("slider");
+const slides=slider.children;
+let index=0;
+setInterval(()=>{
+  index=(index+1)%slides.length;
+  slider.scrollTo({
+    left:slider.clientWidth*index,
+    behavior:"smooth"
+  });
+},3000);
+
+/* SELECT */
+function selectDM(el,dm,price){
+  document.querySelectorAll('.dm').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedDM=dm;
+  selectedPrice=price;
+}
+
+function selectPay(el,pay){
+  document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedPay=pay;
+}
+
+/* POPUP */
+function closePopup(){
+  document.getElementById("popup").classList.remove("show");
+}
+function showPopup(){
+  document.getElementById("popup").classList.add("show");
+}
+
+/* BAYAR */
+function bayar(){
+  const id=document.getElementById("userid").value;
+  const server=document.getElementById("server").value;
+
+  if(!id||!server||!selectedDM||!selectedPay){
+    showPopup();
+    return;
+  }
+
+  const text=`Top Up ML
+ID: ${id} (${server})
+Diamond: ${selectedDM}
+Harga: ${selectedPrice}
+Pembayaran: ${selectedPay}`;
+
+  window.open("https://wa.me/6281391315752?text="+encodeURIComponent(text));
+}
+</script>
+
+</body>
+  </html>
